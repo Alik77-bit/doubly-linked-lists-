@@ -1,0 +1,542 @@
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+struct people
+{
+	char name[50];
+	char last_name[50];
+	int age;
+	int born_year;
+	int salary;
+	int sex;
+	int complaints;
+	int isworking;
+
+};
+
+
+struct list
+{
+	people info;
+	list *next;
+	list *previous;
+};
+
+
+class C_list {
+private: list *head;
+public:
+
+	void Input(people &p)
+	{
+		cout << "Enter the name : ";
+		cin >> p.name;
+		cout << "Enter LastName : ";
+		cin >> p.last_name;
+		cout << "Enter age : ";
+		cin >> p.age;
+
+		cout << "Enter born year : ";
+		cin >> p.born_year;
+		cout << "Enter sallary : ";
+		cin >> p.salary;
+		cout << "Male or Female : ";
+		cin >> p.sex;
+		cout << "Enter complaints : ";
+		cin >> p.complaints;
+		cout << "Working ? : ";
+		cin >> p.isworking;
+
+	};
+
+	C_list(people p)
+	{
+		head = new list;
+		head->info = p;
+		head->next = NULL;
+		head->previous = NULL;
+	}
+
+
+	~C_list() { delete head; head = 0; }
+
+	void PrintPersonInfo()
+	{
+		list *create = new list;
+		create = head;
+		while (create != NULL)
+
+		{
+
+			cout << "Name : " << create->info.name << endl;
+			cout << "LastName: " << create->info.last_name << endl;
+			cout << "Born Year : " << create->info.born_year << endl;
+			cout << "Salary : " << create->info.salary << "$ " << endl;
+			cout << "Male or Female? : " << create->info.sex << endl;
+			cout << "Complaints : " << create->info.complaints << endl << endl;
+			cout << "Working ? : " << create->info.isworking << endl;
+
+			create = create->next;
+		}
+
+	}
+
+	void  addelement(people p)
+	{
+		list *create = new list;
+		create->previous = NULL;
+		create->next = head;
+		create->info = p;
+		create->previous = head;
+		head = create;
+
+
+	}
+
+	void add_element2(people p)
+	{
+		list *create = new list;
+		list *ptr;
+		ptr = head;
+
+		while (ptr->next != NULL)
+		{
+			ptr = ptr->next;
+
+		}
+
+		create->info = p;
+		create->next = NULL;
+		create->previous = ptr;
+		ptr->next = create;
+
+	}
+
+	void delete_element_end()
+	{
+		list* create;
+		create = head;
+
+		while (create->next->next != NULL)
+		{
+			create = create->next;
+		}
+
+		create->next = NULL;
+	}
+
+	void delete_element_first()
+	{
+
+
+		head = head->next;
+		head->previous = NULL;
+
+
+
+	}
+
+	void K_add(people p, int k)
+	{
+
+		list* create = new list;
+		create = head;
+		int q = 0;
+
+		while (create != NULL)
+		{
+			create = create->next;
+			q++;
+		}
+
+		cout << "Count =  " << q << endl;
+		create = head;
+
+		if (q == 0)
+
+		{
+			addelement(p);
+		}
+
+		else
+			if (k >= q)
+			{
+				add_element2(p);
+			}
+
+			else
+			{
+
+				for (int i = 1; i < k - 1; i++)
+				{
+					create = create->next;
+				}
+
+				list* temp = new list;
+				temp->info = p;
+				temp->next = create->next;
+				temp->previous = create;
+				create->next->previous = temp;
+				create->next = temp;
+
+
+
+
+
+
+			}
+
+	}
+
+	void K_Remove(people p, int k)
+
+	{
+		list* create = new list;
+		create = head;
+
+		int q = 0;
+
+		while (create != NULL)
+		{
+			create = create->next;
+			q++;
+		}
+
+
+
+
+		create = head;
+		if (k == 0)
+		{
+			delete_element_first();
+		}
+
+		else
+			if (k >= q)
+			{
+				delete_element_end();
+			}
+
+			else
+			{
+
+				for (int i = 1; i < k - 1; i++)
+				{
+
+					create = create->next;
+				}
+				cout << "Data information : " << create->info.name << endl;
+				create->next = create->next->next;
+				create->next->previous = create;
+
+			}
+
+	}
+
+	void init(people p)
+	{
+		list *head = new list;
+		head->info = p;
+		head->next = NULL;
+		head->previous = NULL;
+
+
+
+	}
+
+	void Exchange(int  c, int d)
+	{
+		list* e = new list;
+		list* k = new list;
+		people p1;
+		e = head;
+		k = head;
+
+		for (int i = 1; i < c; ++i)
+		{
+			e = e->next;
+		
+		}
+
+		p1 = e->info;
+
+		for (int i = 0; i < d; ++i)
+		{
+			k = k->next;
+		}
+		
+		people p2 = k->info;
+		k->info = p1;
+		k = head;
+
+		
+	for (int i = 1; i < c; ++i)
+	{
+		e = e->next;
+	}
+		e->info = p2;
+		
+
+}
+	
+
+
+
+	void Get_Man(people *p, int &k)
+	{
+		list* create;
+		create = head; k = 0;
+		while (create != NULL)
+		{
+			if (create->info.isworking == 1 && create->info.age>=18 && create->info.sex == 1)
+			{
+				
+				p[k++] = create->info;
+
+
+			}
+			create = create->next;
+
+
+		}
+
+	}
+
+
+	void Get_Max_Sallary()
+	{
+		list* create = new list;
+		people *p; 
+		int k;
+		create = head;
+		int max_salary = create->info.salary;
+
+
+		while (create->next != NULL)
+		{
+			if (create->info.salary > max_salary)
+			{
+				max_salary = create->info.salary;
+			}
+
+			create = create->next;
+		}
+		create = head;
+		cout << "Max Salary : " << max_salary << endl;
+		while (create!= NULL)
+		{
+			if (create->info.salary == max_salary) {
+				cout << "Name : " << create->info.name << endl;
+				cout << "LastName: " << create->info.last_name << endl;
+				cout << "Born Year : " << create->info.born_year << endl;
+				cout << "Salary : " << create->info.salary << "$ " << endl;
+				cout << "Male or Female? : " << create->info.sex << endl;
+				cout << "Complaints : " << create->info.complaints << endl << endl;
+				cout << "Working ? : " << create->info.isworking << endl;
+			}
+			create = create->next;
+		}
+
+	}
+
+	void Find_Element(char *p)
+	{
+		list* create;
+		create = head;
+		while (create != NULL)
+		{
+			if (strcmp(create->info.last_name, p) == 0) {
+				cout << "Name : " << create->info.name << endl;
+				cout << "LastName: " << create->info.last_name << endl;
+				cout << "Born Year : " << create->info.born_year << endl;
+				cout << "Salary : " << create->info.salary << "$ " << endl;
+				cout << "Male or Female? : " << create->info.sex << endl;
+				cout << "Complaints : " << create->info.complaints << endl << endl;
+				cout << "Working ? : " << create->info.isworking << endl << endl;
+			}
+			create = create->next;
+		}
+
+	}
+
+
+
+
+
+
+};
+
+
+void Input(people &p)
+{
+	cout << "Enter the name : ";
+	cin >> p.name;
+	cout << "Enter LastName : ";
+	cin >> p.last_name;
+	cout << "Enter age : ";
+	cin >> p.age;
+
+	cout << "Enter born year : ";
+	cin >> p.born_year;
+	cout << "Enter sallary : ";
+	cin >> p.salary;
+	cout << "Male or Female : ";
+	cin >> p.sex;
+	cout << "Enter complaints : ";
+	cin >> p.complaints;
+	cout << "Working ? : ";
+	cin >> p.isworking;
+
+};
+
+
+int main()
+{
+	people p;
+	Input(p);
+C_list ob(p);
+
+int n;
+cout << "n = ";
+cin >> n;
+
+for (int i = 1; i <= n; i++)
+	{
+Input(p);
+ob.addelement(p);
+}
+int choice,k;
+do{
+
+
+	cout << "__________________Menu______________________" << endl;
+	cout << "Enter the following numbers 0-11 !! " << endl;
+	cout << "Enter 1 for Print " << endl;
+	cout << "Enter 2 to add element at the first of the list  " << endl;
+	cout << "Enter 3 to delete at the end of the list " << endl;
+	cout << "Enter 4 to delete K position from the list " << endl;
+	cout << "Enter 5 to delete first element from the list " << endl;
+	cout << "Enter 6 to add element at the end of the list " << endl;
+	cout << "Enter 7 to add K position into the list " << endl;
+	cout << "Enter 8 to exchange any 2 point " << endl;
+	cout << "Enter 9 to search some information " << endl;
+	cout << "Enter 10 to get a list of working adult boys and finds who has a maximum salary/salaries : " << endl;
+	cout << "Enter 0 to exit " << endl;
+	cout << "_________________________________________________ " << endl;
+	
+	cout << "Enter your choice : ";
+	cin >> choice;
+
+		switch (choice)
+		{
+
+		case 1:
+
+			ob.PrintPersonInfo();
+			break;
+
+		case 2:
+
+			Input(p);
+			ob.addelement(p);
+			break;
+
+		case 3:
+
+			ob.delete_element_end();
+			break;
+
+		case 4:
+
+			cout << "Deleting k position on the list : " << endl;
+			cout << "Enter  k : ";
+			cin >> k;
+
+			ob.K_Remove(p, k);
+
+			break;
+
+		case 5:
+
+			ob.delete_element_first();
+			break;
+
+		case 6:
+
+			Input(p);
+			ob.add_element2(p);
+			break;
+
+		case 7:
+
+			Input(p);
+			cout << "Adding k position on the list : " << endl;
+			cout << "Enter  k : ";
+			cin >> k;
+			ob.K_add(p, k);
+			break;
+
+		case 8:
+
+			cout << "Exchanging  elements : " << endl;
+			int element_1, element_2;
+			cout << "Enter element one = ";
+			cin >> element_1;
+			cout << "Enter element two = ";
+			cin >> element_2;
+			ob.Exchange(element_1, element_2);
+			break;
+
+
+		case 9:
+
+			char h[20];
+			cout << "Enter the last name : ";
+			cin >> h;
+			ob.Find_Element(h);
+			break;
+			
+
+		case 10:
+
+			people *pp = new people[n];
+
+			ob.Get_Man(pp, k);
+
+			C_list ob1(pp[0]);
+
+			for (int i = 1;i < k;++i)
+			{
+				ob1.addelement(pp[i]);
+			}
+				
+		
+
+			ob1.Get_Max_Sallary();
+
+			break;
+		
+
+		}
+
+}
+
+while (choice !=0);
+
+	
+
+	return 0;
+
+}
+
+
